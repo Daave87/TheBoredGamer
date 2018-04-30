@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,7 +49,8 @@ namespace TheBoredGamer.Web
             });
 
             var options = new RewriteOptions();
-            options.Rules.Add(new NonWwwRule());
+            options.AddRedirectToHttpsPermanent();
+            options.Add(new NonWwwRule());
 
             app.UseRewriter(options);
         }
