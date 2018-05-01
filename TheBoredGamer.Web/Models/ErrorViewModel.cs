@@ -1,5 +1,3 @@
-using System;
-
 namespace TheBoredGamer.Web.Models
 {
     public class ErrorViewModel

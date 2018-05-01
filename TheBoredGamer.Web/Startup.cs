@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -39,37 +34,16 @@ namespace TheBoredGamer.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            var options = new RewriteOptions();
+            options.Rules.Add(new NonWwwRule());
+
+            app.UseRewriter(options);
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=About}/{id?}");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                var host = context.Request.Host.HasValue ? context.Request.Host.Value.ToLower() : "";
-                var path = context.Request.Path.HasValue ? context.Request.Path.Value : "";
-                var querystring = context.Request.QueryString.HasValue ? context.Request.QueryString.Value : "";
-
-                if (host.StartsWith("www."))
-                {
-                    var newUrl = host.Substring(4, host.Length - 4);
-
-                    if (path != "")
-                    {
-                        newUrl = newUrl + path;
-                    }
-
-                    if (querystring != "")
-                    {
-                        newUrl = newUrl + querystring;
-                    }
-
-                    context.Response.Redirect(newUrl, true);
-                }
+                routes.MapRoute("default", "{controller=Home}/{action=About}/{id?}");
             });
         }
     }
