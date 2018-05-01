@@ -16,7 +16,7 @@ namespace TheBoredGamer.Web
             }
 
             var newHost = new HostString(currentHost.Host.Substring(4));
-            var newUrl = new StringBuilder().Append(newHost).Append(request.PathBase).Append(request.Path).Append(request.QueryString);
+            var newUrl = new StringBuilder().Append("https://").Append(newHost).Append(request.PathBase).Append(request.Path).Append(request.QueryString);
             context.HttpContext.Response.Redirect(newUrl.ToString(), true);
             context.Result = RuleResult.EndResponse;
         }
