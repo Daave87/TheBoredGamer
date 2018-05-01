@@ -47,12 +47,6 @@ namespace TheBoredGamer.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            var options = new RewriteOptions();
-            options.AddRedirectToHttpsPermanent();
-            options.Add(new NonWwwRule());
-
-            app.UseRewriter(options);
         }
     }
 }
