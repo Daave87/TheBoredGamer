@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TheBoredGamer.Models
+namespace TheBoredGamer.Models.DAL
 {
     public class Artist
     {

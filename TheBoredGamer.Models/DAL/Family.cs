@@ -2,9 +2,9 @@
 
 namespace TheBoredGamer.Models.DAL
 {
-    public class Mechanic
+    public class Family
     {
-        public Guid MechanicId { get; set; }
+        public Guid FamilyId { get; set; }
         public int BoardGameGeekId { get; set; }
         public string Name { get; set; }
     }
