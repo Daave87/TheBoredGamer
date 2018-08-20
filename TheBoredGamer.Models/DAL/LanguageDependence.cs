@@ -2,7 +2,8 @@
 {
     public class LanguageDependence
     {
-        public LanguageDependenceLevel Level { get; set; }
+        public string LanguageDependenceId { get; set; }
+        public string Description { get; set; }
         public int Votes { get; set; }
     }
 }

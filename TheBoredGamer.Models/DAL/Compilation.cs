@@ -2,9 +2,9 @@
 
 namespace TheBoredGamer.Models.DAL
 {
-    public class Expansion
+    public class Compilation
     {
-        public string ExpansionId { get; set; }
+        public string CompilationId { get; set; }
         public int BoardGameGeekId { get; set; }
         public string Name { get; set; }
     }

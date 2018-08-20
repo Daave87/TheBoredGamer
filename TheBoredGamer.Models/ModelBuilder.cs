@@ -18,7 +18,7 @@ namespace TheBoredGamer.Models
                 cfg.CreateMap<Item, Game>()
                     .ForMember(dest => dest.BoardGameGeekId, opt => opt.MapFrom(src => int.Parse(src.Id)))
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.FirstOrDefault(x => x.Type == "primary").Value))
-                    .ForMember(dest => dest.YearPubished, opt => opt.MapFrom(src => src.Yearpublished.Value))
+                    .ForMember(dest => dest.YearPublished, opt => opt.MapFrom(src => src.Yearpublished.Value))
                     .ForMember(dest => dest.MaxPlayers, opt => opt.MapFrom(src => src.Maxplayers.Value))
                     .ForMember(dest => dest.MaxPlayingTime, opt => opt.MapFrom(src => src.Maxplaytime.Value))
                     .ForMember(dest => dest.MinAge, opt => opt.MapFrom(src => src.Minage.Value))
@@ -36,6 +36,7 @@ namespace TheBoredGamer.Models
                     .ForMember(dest => dest.Designers, opt => opt.MapFrom(src => GetDesignersFromLinks(src.Link.Where(x => x.Type == "boardgamedesigner"))))
                     .ForMember(dest => dest.Families, opt => opt.MapFrom(src => GetFamiliesFromLinks(src.Link.Where(x => x.Type == "boardgamefamily"))))
                     .ForMember(dest => dest.Integrations, opt => opt.MapFrom(src => GetIntegrationsFromLinks(src.Link.Where(x => x.Type == "boardgameintegration"))))
+                    .ForMember(dest => dest.Compilations, opt => opt.MapFrom(src => GetCompilationsFromLinks(src.Link.Where(x => x.Type == "boardgamecompilation"))))
                     ;
             });
             
@@ -62,9 +63,9 @@ namespace TheBoredGamer.Models
             }
         }
 
-        private static IEnumerable<SuggestedPlayerAge> GetPlayerAgesFromPoll(Poll poll)
+        private static IEnumerable<PlayerAge> GetPlayerAgesFromPoll(Poll poll)
         {
-            return poll.Results.SingleOrDefault()?.Result.Select(result => new SuggestedPlayerAge
+            return poll.Results.SingleOrDefault()?.Result.Select(result => new PlayerAge
             {
                 Age = Convert.ToInt32(result.Value.Replace(" and up", "")),
                 AndUp = result.Value.Contains(" and up"),
@@ -76,7 +77,7 @@ namespace TheBoredGamer.Models
         {
             return poll.Results.SingleOrDefault()?.Result.Select(result => new LanguageDependence
             {
-                Level = (LanguageDependenceLevel) Convert.ToInt32(result.Level),
+                Description = result.Value,
                 Votes = Convert.ToInt32(result.Numvotes)
             });
         }
@@ -129,6 +130,15 @@ namespace TheBoredGamer.Models
         private static IEnumerable<Integration> GetIntegrationsFromLinks(IEnumerable<Link> links)
         {
             return links.Select(link => new Integration
+            {
+                Name = link.Value,
+                BoardGameGeekId = Convert.ToInt32(link.Id)
+            });
+        }
+
+        private static IEnumerable<Compilation> GetCompilationsFromLinks(IEnumerable<Link> links)
+        {
+            return links.Select(link => new Compilation
             {
                 Name = link.Value,
                 BoardGameGeekId = Convert.ToInt32(link.Id)

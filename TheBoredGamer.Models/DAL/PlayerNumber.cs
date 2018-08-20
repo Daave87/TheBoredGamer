@@ -2,6 +2,7 @@
 {
     public class PlayerNumber
     {
+        public string PlayerNumberId { get; set; }
         public int Number { get; set; }
         public int BestVotes { get; set; }
         public int RecommendedVotes { get; set; }
